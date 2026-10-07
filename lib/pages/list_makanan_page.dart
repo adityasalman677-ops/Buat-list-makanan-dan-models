@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controller/list_makanan_controller.dart';
+import 'package:flutter_application_1/pages/detail_makanan_page.dart';
 import 'package:get/get.dart';
 
 class ListMakananPage extends StatelessWidget {
@@ -36,8 +37,7 @@ class ListMakananPage extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
-                // pindah ke detail page
-                // menggunakan Get.to
+                Get.to(() => DetailMakananPage(makanan: makanan));
               },
               child: Padding(
                 padding: const EdgeInsets.all(14),
