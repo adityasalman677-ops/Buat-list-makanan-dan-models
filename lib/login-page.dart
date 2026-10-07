@@ -1,70 +1,135 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/custom_textfield.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginClone extends StatefulWidget {
+  const LoginClone({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginClone> createState() => _LoginCloneState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  TextEditingController txtUsername = TextEditingController();
-  TextEditingController txtPassword = TextEditingController();
-  String statusLogin = "";
+class _LoginCloneState extends State<LoginClone> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Login Page")),
-      body: Column(
-        children: [
-          // kita isi textfield username, password, dan button
-          Text(
-            "Welcome to Application " + statusLogin.toString(),
-            style: TextStyle(
-              fontSize: 20,
-              color: const Color.fromARGB(255, 62, 4, 223),
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: CustomTextfield(
-              controller: txtUsername,
-              Myhint: "input username",
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: CustomTextfield(
-              controller: txtPassword,
-              Myhint: "input password",
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    String username = txtUsername.text.toString();
-                    String password = txtPassword.text.toString();
-                    if (username == "admin" && password == "admin") {
-                      print("sukses login");
-                      statusLogin = "admin";
-                    } else {
-                      print("gagal login");
-                      statusLogin = "failed";
-                    }
-                  });
-                },
-                child: Text("Login"),
-              ),
-              ElevatedButton(onPressed: () {}, child: Text("Register")),
-            ],
-          ),
-        ],
+      backgroundColor: const Color(0xFF121212),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10),
+
+            // Judul Halaman
+            const Text(
+              'Log in',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 32),
+
+            // Input Email
+            _buildInputField(
+              label: 'Email or username',
+              hint: 'Enter your email',
+            ),
+            const SizedBox(height: 24),
+
+            _buildInputField(
+              label: 'Password',
+              hint: 'Enter your password',
+              isPassword: false,
+            ),
+            const SizedBox(height: 40),
+
+            // Tombol Login
+            Center(
+              child: SizedBox(
+                width: 140,
+                height: 48,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1DB954),
+                    foregroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: const Text(
+                    'Log in',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Tombol Opsi Lain
+            Center(
+              child: TextButton(
+                onPressed: () {},
+                child: const Text(
+                  'Log in without password',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Helper Widget untuk TextField
+  Widget _buildInputField({
+    required String label,
+    required String hint,
+    bool isPassword = false,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          obscureText: isPassword,
+          style: const TextStyle(color: Colors.white),
+          cursorColor: Colors.white,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: const Color(0xFF333333),
+            hintText: hint,
+            hintStyle: const TextStyle(color: Colors.grey),
+            contentPadding: const EdgeInsets.all(16.0),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4.0),
+              borderSide: BorderSide.none,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
