@@ -4,6 +4,8 @@ import 'package:flutter_application_1/pages/login_spoty_page.dart';
 import 'package:flutter_application_1/kalkulator-page.dart';
 import 'package:flutter_application_1/login-page.dart';
 import 'package:flutter_application_1/loginclone-page.dart';
+import 'package:flutter_application_1/pages/menu_drawer.dart';
+
 import 'package:flutter_application_1/routes.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "My Learning App",
-      initialRoute: Routes.list_makanan,
+      initialRoute: Routes.loginclone,
       getPages: Routes.myPages,
     );
   }

@@ -4,6 +4,8 @@ class MakananModel {
   final String gambarMakanan; // link gambar
   final String asalUsul;
 
+  // ini konstruktor
+  // agar nanti bisa langsung diisikan ketika membuat object
   MakananModel({
     required this.namaMakanan,
     required this.hargaMakanan,
@@ -11,3 +13,4 @@ class MakananModel {
     required this.asalUsul,
   });
 }
+  

@@ -1,53 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/makanan_models.dart';
+import 'package:flutter_application_1/controller/detail_makanan_controller.dart';
+import 'package:get/get.dart';
 
 class DetailMakananPage extends StatelessWidget {
-  final MakananModel makanan;
+  DetailMakananPage({super.key});
 
-  const DetailMakananPage({super.key, required this.makanan});
+  final controller = Get.put(DetailMakananController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title: Text(
-          makanan.namaMakanan,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
+        title: Text(controller.namaMakanan),
         backgroundColor: Colors.orange,
         foregroundColor: Colors.white,
-        elevation: 0,
       ),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Image.network(
+              controller.gambarMakanan,
+              width: double.infinity,
+              height: 200,
+              fit: BoxFit.cover,
+            ),
+            const SizedBox(height: 12),
             Text(
-              makanan.namaMakanan,
+              controller.namaMakanan,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 4),
             Text(
-              "Rp${makanan.hargaMakanan}",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.green.shade700,
-              ),
+              "Rp. ${controller.hargaMakanan}",
+              style: const TextStyle(fontSize: 18, color: Colors.red),
             ),
             const SizedBox(height: 20),
             const Text(
               "Asal Usul",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
-            Text(
-              makanan.asalUsul,
-              style: const TextStyle(fontSize: 15, height: 1.5),
-            ),
+            Text(controller.asalUsul),
           ],
         ),
       ),

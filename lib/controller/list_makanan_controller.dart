@@ -2,19 +2,18 @@ import 'package:flutter_application_1/models/makanan_models.dart';
 import 'package:get/get.dart';
 
 class ListMakananController extends GetxController {
-  // kita buat data datanya
   List<MakananModel> listMakanan = [
     MakananModel(
       namaMakanan: "Soto Ayam",
       hargaMakanan: "10.000",
-      gambarMakanan: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLR4MpKLuCJgG5Ddy5mJdSpuNpdQcMkDYV0MKh8jJxUg&s=10)",
+      gambarMakanan: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLR4MpKLuCJgG5Ddy5mJdSpuNpdQcMkDYV0MKh8jJxUg&s=10",
       asalUsul: "Soto Ayam khas Kudus, Jawa Tengah. Menurut cerita yang beredar, soto di Kudus memakai daging kerbau, tetapi diganti ayam sebagai bentuk toleransi kepada umat Hindu, sesuai ajaran Sunan Kudus.",
     ),
 
     MakananModel(
       namaMakanan: "Lentog",
       hargaMakanan: "80.000",
-      gambarMakanan: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7IctHKMEn13yohkfoTyfD_NNRTwOvW8PHAt0v0nMrpA&s=10)",
+      gambarMakanan: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7IctHKMEn13yohkfoTyfD_NNRTwOvW8PHAt0v0nMrpA&s=10",
       asalUsul: "Lentog berasal dari Kudus, Jawa Tengah. Nama lentog berasal dari kata lontong, disajikan dengan sayur lodeh nangka muda, tahu, tempe, dan sambal.",
     ),
 
@@ -38,6 +37,5 @@ class ListMakananController extends GetxController {
       gambarMakanan: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8cPHrnnIjHL0JPxahp_TzwP-P-KgODdtV6kwtU9g02g&s=10",
       asalUsul: "Bolang baling adalah jajanan tradisional Jawa Tengah. Isi bagian ini sesuai sumber yang kamu pakai.",
     ),
-    // dll
-  ];
+  ].obs;
 }

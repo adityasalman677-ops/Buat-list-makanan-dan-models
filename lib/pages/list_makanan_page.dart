@@ -1,6 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controller/list_makanan_controller.dart';
-import 'package:flutter_application_1/pages/detail_makanan_page.dart';
+import 'package:flutter_application_1/routes.dart';
 import 'package:get/get.dart';
 
 class ListMakananPage extends StatelessWidget {
@@ -13,103 +14,102 @@ class ListMakananPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title: const Text(
-          "List Makanan",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
+        title: const Text("List Makanan"),
         backgroundColor: Colors.orange,
         foregroundColor: Colors.white,
-        elevation: 0,
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: controller.listMakanan.length,
-        itemBuilder: (context, index) {
-          final makanan = controller.listMakanan[index];
-          return Card(
-            elevation: 2,
-            margin: const EdgeInsets.only(bottom: 10),
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Text(
+              "Makanan Khas",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(12),
-              onTap: () {
-                Get.to(() => DetailMakananPage(makanan: makanan));
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        makanan.gambarMakanan,
-                        width: 60,
-                        height: 60,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Container(
-                            width: 60,
-                            height: 60,
-                            color: Colors.orange.shade50,
-                            child: const Center(
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
+          ),
+          SizedBox(
+            height: 260,
+            child: ScrollConfiguration(
+              // supaya bisa digeser dengan mouse di Chrome
+              behavior: ScrollConfiguration.of(context).copyWith(
+                dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+              ),
+              child: Obx(
+                () => ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  itemCount: controller.listMakanan.length,
+                  itemBuilder: (context, index) {
+                    final makanan = controller.listMakanan[index];
+                    return SizedBox(
+                      width: 180,
+                      child: Card(
+                        color: Colors.orange.shade50,
+                        elevation: 3,
+                        clipBehavior: Clip.antiAlias,
+                        child: InkWell(
+                          onTap: () => Get.toNamed(
+                            Routes.detail_makanan,
+                            arguments: {
+                              'namaMakanan': makanan.namaMakanan,
+                              'hargaMakanan': makanan.hargaMakanan,
+                              'gambarMakanan': makanan.gambarMakanan,
+                              'asalUsul': makanan.asalUsul,
+                            },
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.network(
+                                makanan.gambarMakanan,
+                                height: 150,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) => const SizedBox(
+                                  height: 150,
+                                  child: Center(
+                                    child: Icon(Icons.fastfood, size: 40),
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          width: 60,
-                          height: 60,
-                          color: Colors.orange.shade50,
-                          child: const Icon(
-                            Icons.restaurant,
-                            color: Colors.orange,
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      makanan.namaMakanan,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "Rp. ${makanan.hargaMakanan}",
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            makanan.namaMakanan,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            "Rp${makanan.hargaMakanan}",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5,
-                              color: Colors.green.shade700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Icon(Icons.chevron_right, color: Colors.grey),
-                  ],
+                    );
+                  },
                 ),
               ),
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

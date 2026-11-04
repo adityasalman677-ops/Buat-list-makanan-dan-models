@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:flutter_application_1/controller/login_controller.dart';
 
-class LoginClone extends StatefulWidget {
-  const LoginClone({Key? key}) : super(key: key);
+class LoginClone extends StatelessWidget {
+  LoginClone({super.key});
 
-  @override
-  State<LoginClone> createState() => _LoginCloneState();
-}
+  final controller = Get.put(LoginController());
 
-class _LoginCloneState extends State<LoginClone> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,10 +14,8 @@ class _LoginCloneState extends State<LoginClone> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
+        // tombol back dihapus karena ini halaman awal
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -26,8 +23,6 @@ class _LoginCloneState extends State<LoginClone> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
-
-            // Judul Halaman
             const Text(
               'Log in',
               style: TextStyle(
@@ -38,56 +33,50 @@ class _LoginCloneState extends State<LoginClone> {
             ),
             const SizedBox(height: 32),
 
-            // Input Email
             _buildInputField(
               label: 'Email or username',
               hint: 'Enter your email',
+              textController: controller.txtUsername,
             ),
             const SizedBox(height: 24),
 
             _buildInputField(
               label: 'Password',
               hint: 'Enter your password',
+              textController: controller.txtPassword,
               isPassword: false,
             ),
             const SizedBox(height: 40),
 
-            // Tombol Login
-            Center(
-              child: SizedBox(
-                width: 140,
-                height: 48,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1DB954),
-                    foregroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24.0),
+            // Tombol Login dengan Obx
+            Obx(
+              () => controller.isLoading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : Center(
+                      child: SizedBox(
+                        width: 180,
+                        height: 48,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF1DB954),
+                            foregroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                          ),
+                          onPressed: () {
+                            controller.login();
+                          },
+                          child: const Text(
+                            'Log in',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    'Log in',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Tombol Opsi Lain
-            Center(
-              child: TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'Log in without password',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
             ),
           ],
         ),
@@ -95,10 +84,10 @@ class _LoginCloneState extends State<LoginClone> {
     );
   }
 
-  // Helper Widget untuk TextField
   Widget _buildInputField({
     required String label,
     required String hint,
+    required TextEditingController textController,
     bool isPassword = false,
   }) {
     return Column(
@@ -114,6 +103,7 @@ class _LoginCloneState extends State<LoginClone> {
         ),
         const SizedBox(height: 8),
         TextField(
+          controller: textController,
           obscureText: isPassword,
           style: const TextStyle(color: Colors.white),
           cursorColor: Colors.white,
